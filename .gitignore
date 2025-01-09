@@ -14,5 +14,6 @@ wheels/
 media/
 theme/
 images/
+.idea/
 db.sqlite3
 vit-b-16-1812-v2
