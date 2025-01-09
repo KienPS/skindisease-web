@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="tw-flex tw-flex-col tw-items-center tw-gap-y-4 tw-h-[calc(100dvh-5rem)] tw-mt-16">
+    {#        <div class="tw-flex tw-justify-end tw-items-center tw-w-full">#}
+    {#            <a class="button" href="{% url 'core:predict_form' %}">#}
+    {#                New prediction#}
+    {#            </a>#}
+    {#        </div>#}
+        {% for prediction in page_obj %}
+            <a class="row padding surface-container-lowest" href="{% url 'core:predict_detail' prediction.pk %}">
+                <img src="{{ prediction.image.url }}" class="round" alt="image" width="224" height="224">
+                <div class="max">
+                    <h6 class="small">{{ prediction.image.name|slice:"7:" }}</h6>
+                </div>
+                <span>{{ prediction.created_at }}</span>
+            </a>
+        {% endfor %}
+        <div id="pagination" class="tw-w-full tw-flex tw-justify-end tw-gap-x-4">
+            <div class="tw-flex tw-items-center">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </div>
+            <button class="transparent circle" {% if not page_obj.has_previous %}disabled{% endif %}>
+                <i>first_page</i>
+            </button>
+            <button class="transparent circle" {% if not page_obj.has_previous %}disabled{% endif %}>
+                <i>navigate_before</i>
+            </button>
+            <button class="transparent circle" {% if not page_obj.has_next %}disabled{% endif %}>
+                <i>navigate_next</i>
+            </button>
+            <button class="transparent circle" {% if not page_obj.has_next %}disabled{% endif %}>
+                <i>last_page</i>
+            </button>
+        </div>
+    </div>
+{% endblock %}

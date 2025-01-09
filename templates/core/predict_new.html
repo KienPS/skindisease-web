@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="tw-flex tw-flex-col tw-justify-center tw-items-center tw-h-[calc(100dvh-5rem)]">
+        <form method="post" action="{% url 'core:predict_form' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <img src="#" alt="image_preview" id="image_preview" width="224" height="224">
+            <div class="tw-flex tw-justify-between tw-items-center tw-mt-8 tw-max-w-[224px]">
+                <button type="button">
+                    <i>attach_file</i>
+                    <span>Upload</span>
+                    {{ form.image }}
+                </button>
+                <button type="submit">
+                    Predict
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        const imageInput = document.getElementById('id_image');
+        const imagePreview = document.getElementById('image_preview');
+
+        imageInput.addEventListener('change', function(event) {
+            if (event.target.files && event.target.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                }
+
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+    </script>
+{% endblock %}

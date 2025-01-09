@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="tw-flex tw-justify-center tw-items-center tw-mt-16">
+        <form method="post" action="{% url 'accounts:login' %}" class="tw-w-1/3">
+            {% csrf_token %}
+            <span class="error-text">
+                {% for error in form.non_field_errors %}
+                    {{ error }}<br>
+                {% endfor %}
+            </span>
+            {% for field in form %}
+                <div class="field label border {% if field.errors %}invalid{% endif %}" style="block-size: unset; margin-block-end: unset">
+                    {{ field|attr:"style:block-size: 3rem" }}
+                    <label>{{ field.label }}</label>
+                    <span class="{% if field.errors %}error{% else %}helper{% endif %}" style="position: unset">
+                        {% if field.errors %}
+                            {{ field.errors }}
+                        {% else %}
+                            {{ field.help_text }}
+                        {% endif %}
+                    </span>
+                </div>
+            {% endfor %}
+            <div class="tw-w-full tw-flex tw-justify-center tw-items-center tw-mt-4">
+                <button type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

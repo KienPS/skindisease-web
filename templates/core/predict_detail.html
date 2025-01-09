@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="tw-flex tw-justify-center tw-items-center tw-gap-x-8 tw-h-[calc(100dvh-5rem)]">
+        <img src="{{ prediction.image.url }}" alt="image" width="224" height="224">
+        <div class="tw-flex tw-flex-col tw-gap-y-2">
+            <h3>Prediction results:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th>Confidence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for label in prediction.labels.all %}
+                        <tr>
+                            <td>{{ label.label }}</td>
+                            <td>{{ label.confidence }}%</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="tw-flex tw-items-center tw-justify-center tw-w-full">
+                <a href="{% url 'core:prediction_history' %}" class="button">Back</a>
+                <button class="error" id="delete_popup">Delete</button>
+            </div>
+            <dialog>
+                <h5>Are you sure you want to delete?</h5>
+                <div>This action is irreversible</div>
+                <form method="post" action="{% url 'core:prediction_delete' prediction.pk %}">
+                    {% csrf_token %}
+                    <nav class="right-align no-space">
+                        <button id="cancel" type="button" class="transparent link">Cancel</button>
+                        <button id="delete" type="submit" class="error">Delete</button>
+                    </nav>
+                </form>
+            </dialog>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        const deletePopupButton = document.getElementById('delete_popup');
+        const deleteDialog = document.querySelector('dialog');
+        const cancelButton = document.getElementById('cancel')
+
+        deletePopupButton.addEventListener('click', () => {
+            deleteDialog.showModal();
+        });
+
+        cancelButton.addEventListener('click', () => {
+            deleteDialog.close();
+        });
+    </script>
+{% endblock %}

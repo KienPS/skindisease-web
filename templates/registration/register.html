@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <p>Bạn đã đăng nhập rồi</p>
+    {% else %}
+        <div class="tw-flex tw-justify-center tw-items-center tw-mt-16">
+            <form method="post" action="{% url 'accounts:register' %}">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="field label border {% if field.errors %}invalid{% endif %}" style="block-size: unset; margin-block-end: unset">
+                        {{ field|attr:"style:block-size: 3rem" }}
+                        <label>{{ field.label }}</label>
+                        <span class="{% if field.errors %}error{% else %}helper{% endif %}" style="position: unset">
+                            {% if field.errors %}
+                                {{ field.errors }}
+                            {% else %}
+                                {{ field.help_text }}
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endfor %}
+                <div class="tw-w-full tw-flex tw-justify-center tw-items-center tw-mt-4">
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,57 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Home{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.8.0/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.8.0/dist/cdn/beer.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.1.2/dist/cdn/material-dynamic-colors.min.js"></script>
+    <script type="module">
+        const theme = async(from) => {
+          await ui("theme", from);
+        };
+        theme("#c8f4ff");
+    </script>
+    {% tailwind_css %}
+</head>
+<body class="theme light tw-bg-[#e4faff]">
+    <header class="tw-bg-[#c8f4ff]">
+        <nav>
+            <img
+                src="https://s3-alpha-sig.figma.com/img/6836/9c17/d1e3ce367a2ba491d912fd9238019c1e?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=iFcalpIPgQX-5GNAoaEMI1lDlV7VGkqq3ldQK7KGkRwdOfjIfPgKv8P9l~zVGMpa0~yDnxQtyAhXVTXUgvEV3LYSdCDrhHUk-64DjwRTslUfczusf4GOURpHpwKcYZbJ2h2NaJYrT4LEXTQoF1EOzLumTNKNzMSixB72q4uVhLt-8eHFBnXnGLyowVBY0Lu3JrC7Y~HR1zuVMm-xsYTyusTtCKNSuIjxFHBCJNbA8Zhkb8ZdFGpLhrw-rgyOsG2N9JWgt5rxYjuV8AbjGPOoE3AhuMkdmZlF09714dQVTHR4znNqMKYZXSb2BNgG-A1LAN2LGgxfrq-o2FKcPo0oZA__"
+                alt="Skin Disease"
+                height="60"
+            >
+            <div class="max"></div>
+            <button class="circle">
+                <i>account_circle</i>
+                <menu class="left no-wrap">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'core:predict_form' %}" class="">New prediction</a>
+                        <a href="{% url 'core:prediction_history' %}">Prediction History</a>
+                        <hr>
+                        <a href="{% url 'accounts:password_change' %}">Change password</a>
+                    {% else %}
+                        <a href="{% url 'accounts:login' %}">Đăng nhập</a>
+                        <a href="{% url 'accounts:register' %}">Đăng ký</a>
+                    {% endif %}
+                </menu>
+            </button>
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'accounts:logout' %}" class="error-text">
+                    {% csrf_token %}
+                    <button class="error">Logout</button>
+                </form>
+            {% endif %}
+        </nav>
+    </header>
+    <main class="responsive">
+        {% block content %}
+        {% endblock %}
+    </main>
+    {% block script %}
+    {% endblock %}
+</body>
+</html>
