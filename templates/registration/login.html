@@ -5,7 +5,7 @@
     {% if user.is_authenticated %}
         <p>Bạn đã đăng nhập rồi</p>
     {% else %}
-        <div class="tw-flex tw-justify-center tw-items-center tw-mt-16">
+        <div class="tw-flex tw-flex-col tw-gap-y-4 tw-justify-center tw-items-center tw-mt-16">
             <form method="post" action="{% url 'accounts:login' %}" class="tw-w-1/3">
                 {% csrf_token %}
                 <span class="error-text">
@@ -26,10 +26,15 @@
                         </span>
                     </div>
                 {% endfor %}
-                <div class="tw-w-full tw-flex tw-justify-center tw-items-center tw-mt-4">
+                <div class="tw-w-full tw-flex tw-justify-end tw-gap-x-2 tw-items-center tw-mt-4">
+                    <a class="button border" href="{% url 'accounts:register' %}">New here?</a>
                     <button type="submit">Login</button>
                 </div>
             </form>
+{#            <div class="tw-flex tw-justify-center">OR</div>#}
+{#            <div class="tw-w-full tw-flex tw-justify-center tw-items-center">#}
+{#                #}
+{#            </div>#}
         </div>
     {% endif %}
 {% endblock %}

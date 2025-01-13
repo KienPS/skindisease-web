@@ -21,10 +21,11 @@
                         </span>
                     </div>
                 {% endfor %}
-                <div class="tw-w-full tw-flex tw-justify-center tw-items-center tw-mt-4">
+                <div class="tw-w-full tw-flex tw-justify-end tw-gap-x-2 tw-items-center tw-mt-4">
+                    <a class="button border" href="{% url 'accounts:login' %}">Already have an account? </a>
                     <button type="submit">Register</button>
                 </div>
-            </form>
+            </form
         </div>
     {% endif %}
 {% endblock %}
